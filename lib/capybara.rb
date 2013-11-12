@@ -13,6 +13,8 @@ module Capybara
   class UnselectNotAllowed < CapybaraError; end
   class NotSupportedByDriverError < CapybaraError; end
   class InfiniteRedirectError < CapybaraError; end
+  class NotVisible < CapybaraError; end
+  class FilterUnmatched < CapybaraError; end
 
   EMPTY_HTML_FILE_PATH = File.expand_path('./capybara/empty.html', File.dirname(__FILE__))
 

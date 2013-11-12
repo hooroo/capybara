@@ -1,6 +1,9 @@
 module Capybara
   class Selector
     class Filter
+
+      attr_reader :name
+
       def initialize(name, block, options={})
         @name = name
         @block = block

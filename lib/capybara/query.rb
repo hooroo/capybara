@@ -42,14 +42,20 @@ module Capybara
         return false if not node.text(visible).match(regexp)
       end
       case visible
-        when :visible then return false unless node.visible?
+        when :visible then raise NotVisible unless node.visible?
         when :hidden then return false if node.visible?
       end
       selector.custom_filters.each do |name, filter|
         if options.has_key?(name)
-          return false unless filter.matches?(node, options[name])
+          unless filter.matches?(node, options[name])
+            warn "Can't find due to #{filter.name} with option: #{options[name]}"
+            return false
+          end
         elsif filter.default?
-          return false unless filter.matches?(node, filter.default)
+          unless filter.matches?(node, filter.default)
+            warn "Can't find due to #{filter.name} with default of: #{filter.default}"
+            return false
+          end
         end
       end
     end
