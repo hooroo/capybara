@@ -50,16 +50,18 @@ module Capybara
       selector.custom_filters.each do |name, filter|
         if options.has_key?(name)
           unless filter.matches?(node, options[name])
-            warn "Can't find due to #{filter.name} with option: #{options[name]}"
-            return false
+            warning = "Can't find due to #{filter.name} with option: #{options[name]}"
+            result  = false
           end
         elsif filter.default?
           unless filter.matches?(node, filter.default)
-            warn "Can't find due to #{filter.name} with default of: #{filter.default}"
-            return false
+            warning = "Can't find due to #{filter.name} with default of: #{filter.default}"
+            result = false
           end
         end
 
+        warn warning if warning
+        return result if result
       end
     end
 
